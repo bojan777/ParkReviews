@@ -19,8 +19,20 @@ var parkRoutes = require("./routes/parks");
 var indexRoutes = require("./routes/index");
 
 
+//Mongodb Cloud 9
+//mongoose.connect("mongodb://localhost:27017/parks_review", { useNewUrlParser: true, useUnifiedTopology: true }); //This will create database inside mongodb, 2nd args are to solve depracation warnings
 
-mongoose.connect("mongodb://localhost:27017/parks_review", { useNewUrlParser: true, useUnifiedTopology: true }); //This will create database inside mongodb, 2nd args are to solve depracation warnings
+//MongoDB Allas 
+mongoose.connect("mongodb+srv://bojan:Inuit1000@cluster0-7ii2c.mongodb.net/test?retryWrites=true&w=majority", { 
+    useNewUrlParser: true, 
+    useUnifiedTopology: true 
+}).then(() => {
+    console.log("Connected to DB");
+}).catch(err => {
+    console.log("ERROR:", err.message);
+}); 
+
+
 app.use(bodyParser.urlencoded({extended: true}));  //to parse the req
 app.use(express.static(__dirname + "/public")); 
 app.set("view engine", "ejs");
