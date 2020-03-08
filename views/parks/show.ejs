@@ -8,6 +8,9 @@
                 <li class="list-group-item">Info 2</li>
                 <li class="list-group-item">Info 3</li>
             </div>
+            </div>
+                <div id="map"></div>
+            </div>
         </div>
         <div class="col-md-9">
             <div class="thumbnail">
@@ -17,7 +20,7 @@
                         <h4><a><%=park.name%></a></h4>
                     <p><%=park.description%></p>
                     <p>
-                        <em>Submitted by: <%=park.author.username%></em>
+                      <em>Submitted by: <%= park.author.username %>, <%= moment(park.createdAt).fromNow() %></em>
                     </p>
                     <% if(currentUser && park.author.id.equals(currentUser._id)){%>
                         <a class="btn btn-warning" href="/parks/<%=park._id%>/edit">Edit</a>
@@ -36,7 +39,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <strong><%= comment.author.username %></strong>
-                                <span class="pull-right">12 days ago</span>
+                                <span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>
                                 <p>
                                     <%= comment.text %>
                                 </p>
@@ -54,6 +57,33 @@
     </div>
 </div>
 
-    
+<script>
+  function initMap() {
+    var lat = <%= park.lat %>;
+    var lng = <%= park.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= park.name %><br />
+      <%= park.location %></strong>
+      <p><%= park.description %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBqxrjb-_vnZ9SvXQRWCf1G5h3aJUQldVw&callback=initMap"></script>    
 
 <%- include("../partials/footer") %>

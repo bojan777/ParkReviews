@@ -1,9 +1,11 @@
+require("dotenv").config();           // loads environment variables from a .env file into process.env
 var express = require("express");
 var app = express();
 var mongoose = require("mongoose");
 var flash = require("connect-flash");
 //var flash = require("connect-flash-plus");
 var bodyParser = require("body-parser");
+app.locals.moment = require('moment');   //Parse, validate, manipulate, and display dates and times in JavaScript.
 var passport = require("passport");
 var methodOverride = require("method-override");
 var User = require("./models/user");
@@ -19,21 +21,10 @@ var parkRoutes = require("./routes/parks");
 var indexRoutes = require("./routes/index");
 
 
-console.log(process.env.DATABASEURL);
-//Mongodb Cloud 9
-// mongoose.connect("mongodb://localhost:27017/parks_review", { useNewUrlParser: true, useUnifiedTopology: true }); //This will create database inside mongodb, 2nd args are to solve depracation warnings
-
-mongoose.connect(process.env.DATABASEURL);
-
-// //MongoDB Atlas 
-// //mongoose.connect("mongodb+srv://bojan:Inuit1000@cluster0-7ii2c.mongodb.net/test?retryWrites=true&w=majority", { 
-//     useNewUrlParser: true, 
-//     useUnifiedTopology: true 
-// }).then(() => {
-//     console.log("Connected to DB");
-// }).catch(err => {
-//     console.log("ERROR:", err.message);
-// }); 
+// MongoDB Atlas or Mongodb Cloud 9
+//set up env variable using 'export DATABASEURL= "url of database on mongo atlas"'
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/parks_review"; 
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 app.use(bodyParser.urlencoded({extended: true}));  //to parse the req
