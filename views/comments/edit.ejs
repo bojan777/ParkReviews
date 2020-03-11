@@ -1,8 +1,8 @@
 <%- include("../partials/header") %>
 
-<div class="container">
-  <div class="row">
-    <h1 style="text-align: center">Edit <%=park_id %></h1>
+<div class="row justify-content-center m-auto">
+  <div class="col-md-12 text-center">
+    <h1 style="text-align: center">Edit comment</h1>
     <div style="width:30%; margin: 20px auto;">
       <form action="/parks/<%= park_id %>/comments/<%=comment._id %>?_method=PUT" method="POST">
         <div class="form-group">

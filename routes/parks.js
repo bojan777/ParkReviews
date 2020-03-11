@@ -47,7 +47,7 @@ router.get('/:id', function (req, res) {
 router.post("/", middleware.isLoggedIn, function(req, res){
   // get data from form and add to park array
   var name = req.body.name;
-  var url = req.body.imageUrl;
+  var image = req.body.image;
   var desc = req.body.description;
   var price = req.body.price;
   var author = {
@@ -62,7 +62,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
     var lat = data[0].latitude;
     var lng = data[0].longitude;
     var location = data[0].formattedAddress;
-    var newPark = {name: name, image: url, description: desc, price: price, author:author, location: location, lat: lat, lng: lng};
+    var newPark = {name: name, image: image, description: desc, price: price, author:author, location: location, lat: lat, lng: lng};
     // Create a new park and save to DB
     Park.create(newPark, function(err, newlyCreated){
         if(err){
